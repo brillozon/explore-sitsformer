@@ -1,0 +1,86 @@
+# Large model configuration for high performance
+# Optimized for maximum model capacity and performance
+
+model:
+  img_size: 256
+  patch_size: 16
+  in_channels: 13
+  num_classes: 20
+  embed_dim: 1024
+  num_layers: 16
+  num_heads: 16
+  mlp_ratio: 4
+  dropout: 0.1
+  max_seq_len: 100
+
+data:
+  sequence_length: 20
+  image_size: 256
+  normalize: true
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+  random_seed: 42
+  
+  # Full Sentinel-2 band set
+  bands: ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B09", "B11", "B12", "QA60"]
+  
+  augmentation:
+    enable: true
+    horizontal_flip: 0.5
+    vertical_flip: 0.5
+    rotation: 0.5
+    brightness_contrast: 0.3
+    gaussian_noise: 0.2
+
+training:
+  epochs: 200
+  batch_size: 8  # Smaller batch size for large model
+  learning_rate: 1e-4
+  weight_decay: 1e-2
+  
+  optimizer: "adamw"
+  scheduler: "cosine"
+  criterion: "cross_entropy"
+  label_smoothing: 0.1
+  
+  use_amp: true
+  gradient_clip_val: 1.0
+  
+  early_stopping:
+    enable: true
+    patience: 25
+    min_delta: 1e-4
+
+dataloader:
+  num_workers: 8
+  pin_memory: true
+  drop_last: true
+  prefetch_factor: 4
+
+logging:
+  use_wandb: true
+  project_name: "sits-former-large"
+  experiment_name: "large_model_experiment"
+  
+  log_dir: "logs/large_model"
+  save_dir: "checkpoints/large_model"
+  save_every: 10
+  log_every: 50
+
+evaluation:
+  metrics: ["accuracy", "precision", "recall", "f1", "confusion_matrix", "roc_auc"]
+  plot_confusion_matrix: true
+  plot_class_performance: true
+  plot_training_curves: true
+
+hardware:
+  device: "auto"
+  use_data_parallel: true
+  gpu_ids: [0, 1]
+  max_memory_fraction: 0.9
+
+experiment:
+  seed: 42
+  deterministic: true
+  profile: false

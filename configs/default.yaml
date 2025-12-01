@@ -1,0 +1,142 @@
+# Default configuration for SITS-Former training
+# This configuration is optimized for experimentation and can be modified for production
+
+model:
+  # Model architecture
+  img_size: 224
+  patch_size: 16
+  in_channels: 13  # Sentinel-2 bands
+  num_classes: 10
+  embed_dim: 768
+  num_layers: 12
+  num_heads: 12
+  mlp_ratio: 4
+  dropout: 0.1
+  max_seq_len: 50
+
+# Data configuration
+data:
+  # Dataset parameters
+  data_dir: "data/raw"
+  metadata_file: "data/metadata.csv"
+  sequence_length: 10
+  image_size: 224
+  normalize: true
+  
+  # Data splitting
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+  random_seed: 42
+  
+  # Spectral bands to use (Sentinel-2)
+  bands: ["B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B11", "B12"]
+  
+  # Data augmentation
+  augmentation:
+    enable: true
+    horizontal_flip: 0.5
+    vertical_flip: 0.5
+    rotation: 0.5
+    brightness_contrast: 0.3
+    gaussian_noise: 0.2
+
+# Training configuration
+training:
+  # Training parameters
+  epochs: 100
+  batch_size: 32
+  learning_rate: 1e-4
+  weight_decay: 1e-2
+  
+  # Optimizer settings
+  optimizer: "adamw"
+  momentum: 0.9  # For SGD
+  
+  # Learning rate scheduler
+  scheduler: "cosine"
+  step_size: 30  # For StepLR
+  gamma: 0.1     # For StepLR
+  patience: 10   # For ReduceLROnPlateau
+  factor: 0.5    # For ReduceLROnPlateau
+  
+  # Loss function
+  criterion: "cross_entropy"
+  label_smoothing: 0.1
+  focal_alpha: 1.0
+  focal_gamma: 2.0
+  
+  # Training optimizations
+  use_amp: true
+  gradient_clip_val: 1.0
+  
+  # Early stopping
+  early_stopping:
+    enable: true
+    patience: 15
+    min_delta: 1e-4
+
+# Data loading configuration
+dataloader:
+  num_workers: 4
+  pin_memory: true
+  drop_last: true
+  prefetch_factor: 2
+
+# Logging and checkpointing
+logging:
+  # Weights & Biases
+  use_wandb: false
+  project_name: "sits-former"
+  experiment_name: "default"
+  
+  # Local logging
+  log_dir: "logs"
+  save_dir: "checkpoints"
+  
+  # Checkpoint frequency
+  save_every: 10
+  save_best: true
+  
+  # Logging frequency
+  log_every: 100
+
+# Evaluation configuration
+evaluation:
+  # Metrics to compute
+  metrics: ["accuracy", "precision", "recall", "f1", "confusion_matrix"]
+  
+  # Visualization
+  plot_confusion_matrix: true
+  plot_class_performance: true
+  plot_training_curves: true
+  
+  # Class names for visualization
+  class_names: ["Class_0", "Class_1", "Class_2", "Class_3", "Class_4", 
+                "Class_5", "Class_6", "Class_7", "Class_8", "Class_9"]
+
+# Hardware configuration
+hardware:
+  # Device settings
+  device: "auto"  # "auto", "cuda", "cpu", "cuda:0", etc.
+  
+  # Multi-GPU settings
+  use_data_parallel: false
+  gpu_ids: [0, 1]
+  
+  # Memory optimization
+  max_memory_fraction: 0.9
+
+# Experiment configuration
+experiment:
+  # Reproducibility
+  seed: 42
+  deterministic: true
+  
+  # Debugging
+  debug: false
+  fast_dev_run: false  # Run only 1 batch for testing
+  
+  # Profiling
+  profile: false
+  profile_steps: 10

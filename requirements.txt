@@ -1,0 +1,13 @@
+# This project now uses Poetry for dependency management.
+# Please use the following commands instead:
+#
+# Install dependencies:
+#   poetry install
+#
+# Add new dependencies:
+#   poetry add <package-name>
+#
+# See pyproject.toml for the complete dependency specification.
+#
+# If you need to generate a requirements.txt for deployment:
+#   poetry export -f requirements.txt --output requirements.txt
