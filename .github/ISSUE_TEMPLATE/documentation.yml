@@ -1,0 +1,102 @@
+name: Documentation Issue
+description: Report problems or improvements for documentation
+title: "[Docs]: "
+labels: ["documentation", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping us improve our documentation! Good documentation is essential for a successful project.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm the following before submitting
+      options:
+        - label: I have searched existing issues to ensure this hasn't been reported already
+          required: true
+        - label: I have checked the latest documentation on the main branch
+          required: true
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation issue is this?
+      options:
+        - API Reference
+        - Tutorial/Guide
+        - Installation Instructions
+        - Examples
+        - README
+        - Contributing Guidelines
+        - Changelog
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      description: What type of documentation issue are you reporting?
+      options:
+        - Missing Information
+        - Incorrect Information
+        - Unclear/Confusing Content
+        - Broken Links
+        - Code Examples Don't Work
+        - Typo/Grammar
+        - Formatting Issue
+        - Outdated Content
+        - Suggestion for Improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Documentation Location
+      description: Where is this documentation located?
+      placeholder: |
+        Please provide:
+        - URL or file path
+        - Section/heading name
+        - Line numbers (if applicable)
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-content
+    attributes:
+      label: Current Content
+      description: What does the current documentation say?
+      placeholder: Copy the relevant section or describe what's currently there
+
+  - type: textarea
+    id: expected-content
+    attributes:
+      label: Expected/Suggested Content
+      description: What should the documentation say instead?
+      placeholder: Provide the correct information or your suggestion for improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any additional information that would help us understand the issue
+      placeholder: Screenshots, links to related documentation, etc.
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Are you interested in helping fix this documentation issue?
+      options:
+        - label: I would be interested in submitting a PR to fix this issue
+        - label: I would be available to review proposed changes

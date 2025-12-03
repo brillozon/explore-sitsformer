@@ -1,0 +1,189 @@
+name: Quality Assurance
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  code-quality:
+    name: Code Quality Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: .venv
+        key: venv-qa-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+    - name: Install dependencies
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      run: poetry install --no-interaction --no-root
+
+    - name: Install project
+      run: poetry install --no-interaction
+
+    - name: Run Black (Code Formatting)
+      run: |
+        poetry run black --check --diff .
+
+    - name: Run isort (Import Sorting)
+      run: |
+        poetry run isort --check-only --diff .
+
+    - name: Run flake8 (Linting)
+      run: |
+        poetry run flake8 --output-file=flake8-report.txt --tee .
+
+    - name: Upload flake8 Results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: flake8-results
+        path: flake8-report.txt
+
+    - name: Run mypy (Type Checking)
+      run: |
+        poetry run mypy src/ --junit-xml mypy-report.xml || true
+
+    - name: Upload mypy Results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: mypy-results
+        path: mypy-report.xml
+
+    - name: Run pylint (Advanced Linting)
+      run: |
+        poetry run pylint src/sitsformer --output-format=json:pylint-report.json,colorized || true
+
+    - name: Upload pylint Results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: pylint-results
+        path: pylint-report.json
+
+  test-coverage:
+    name: Test Coverage Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: .venv
+        key: venv-test-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+    - name: Install dependencies
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      run: poetry install --no-interaction --no-root
+
+    - name: Install project
+      run: poetry install --no-interaction
+
+    - name: Run tests with coverage
+      run: |
+        poetry run pytest --cov=src/sitsformer --cov-report=xml --cov-report=html --cov-report=term
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: true
+
+    - name: Upload coverage artifacts
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: coverage-results
+        path: |
+          coverage.xml
+          htmlcov/
+
+    - name: Comment PR with coverage
+      if: github.event_name == 'pull_request'
+      uses: py-cov-action/python-coverage-comment-action@v3
+      with:
+        GITHUB_TOKEN: ${{ github.token }}
+
+  documentation-check:
+    name: Documentation Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+
+    - name: Install dependencies
+      run: poetry install --no-interaction
+
+    - name: Check documentation build
+      run: |
+        cd docs
+        poetry run make html SPHINXOPTS="-W --keep-going"
+
+    - name: Check documentation links
+      run: |
+        cd docs
+        poetry run make linkcheck
+
+    - name: Upload documentation artifacts
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: documentation-build
+        path: docs/_build/

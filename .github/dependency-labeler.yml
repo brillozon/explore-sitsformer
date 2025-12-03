@@ -1,0 +1,74 @@
+# Dependency labeler configuration
+# Auto-label PRs that modify dependency files
+
+"dependencies":
+  - pyproject.toml
+  - poetry.lock
+  - requirements.txt
+  - requirements/*.txt
+
+"python":
+  - pyproject.toml
+  - poetry.lock
+  - requirements.txt
+  - requirements/*.txt
+  - setup.py
+  - setup.cfg
+
+"github-actions":
+  - .github/workflows/*.yml
+  - .github/workflows/*.yaml
+  - .github/actions/**
+
+"docker":
+  - Dockerfile*
+  - docker-compose*.yml
+  - docker-compose*.yaml
+  - .dockerignore
+
+"ci/cd":
+  - .github/workflows/*.yml
+  - .github/workflows/*.yaml
+  - .pre-commit-config.yaml
+  - .github/actions/**
+  - .github/scripts/**
+
+"component: model":
+  - src/sitsformer/models/**
+  - src/sitsformer/model.py
+  - src/sitsformer/layers.py
+
+"component: data":
+  - src/sitsformer/data/**
+
+"component: training":
+  - src/sitsformer/training/**
+
+"component: evaluation":
+  - src/sitsformer/evaluation/**
+
+"component: config":
+  - src/sitsformer/utils/config.py
+  - configs/**
+
+"component: utils":
+  - src/sitsformer/utils/**
+
+"type: documentation":
+  - docs/**
+  - "*.md"
+  - "*.rst"
+  - README.md
+  - CONTRIBUTING.md
+  - CHANGELOG.md
+
+"testing":
+  - tests/**
+  - "**/test_*.py"
+  - "**/*_test.py"
+
+"env: docker":
+  - Dockerfile*
+  - docker-compose*.yml
+  - docker-compose*.yaml
+  - .dockerignore

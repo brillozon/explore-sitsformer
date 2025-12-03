@@ -1,0 +1,82 @@
+name: Question
+description: Ask a question about using SITSFormer
+title: "[Question]: "
+labels: ["question", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your question! Please provide as much context as possible so we can help you effectively.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm the following before asking your question
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: I have read the documentation and tutorials
+          required: true
+        - label: I have checked the FAQ (if available)
+          required: false
+
+  - type: dropdown
+    id: question-category
+    attributes:
+      label: Question Category
+      description: What category does your question fall into?
+      options:
+        - Installation/Setup
+        - Model Usage
+        - Data Preparation
+        - Training/Fine-tuning
+        - Inference/Prediction
+        - Performance/Optimization
+        - Architecture/Design
+        - Integration
+        - Best Practices
+        - Troubleshooting
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What is your question?
+      placeholder: Please be as specific as possible about what you're trying to achieve or understand
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide context about your use case, what you've tried, and any relevant background
+      placeholder: |
+        - What are you trying to achieve?
+        - What have you tried so far?
+        - What specific problems are you encountering?
+        - Any relevant code snippets or configuration
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment (if relevant)
+      description: If your question is related to installation or technical issues, please provide environment details
+      placeholder: |
+        - OS: [e.g. Ubuntu 20.04, macOS 13.0, Windows 11]
+        - Python version: [e.g. 3.11.5]
+        - SITSFormer version: [e.g. 1.0.0]
+        - Other relevant packages/versions
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Any additional information that might help us answer your question
+      placeholder: Links, references, error messages, etc.

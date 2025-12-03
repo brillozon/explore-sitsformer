@@ -1,0 +1,189 @@
+name: Auto Label
+
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled]
+  pull_request:
+    types: [opened, edited, labeled, unlabeled, synchronize]
+  pull_request_target:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  auto-label:
+    name: Automatic Labeling
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Auto Label Issues and PRs
+      uses: github/issue-labeler@v3.2
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        configuration-path: .github/labeler.yml
+        enable-versioned-regex: 1
+
+  pr-size-labeler:
+    name: PR Size Labeling
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Label PR Size
+      uses: pascalgn/size-label-action@v0.4.3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        sizes: >
+          {
+            "0": "size: XS",
+            "10": "size: S", 
+            "50": "size: M",
+            "250": "size: L",
+            "1000": "size: XL"
+          }
+
+  dependency-labeler:
+    name: Dependency Labeling
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Label Dependencies
+      uses: actions/labeler@v4
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        configuration-path: .github/dependency-labeler.yml
+        sync-labels: true
+
+  component-labeler:
+    name: Component Labeling
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+      with:
+        files_yaml: |
+          model:
+            - 'src/sitsformer/models/**'
+            - 'src/sitsformer/model.py'
+            - 'src/sitsformer/layers.py'
+          data:
+            - 'src/sitsformer/data/**'
+          training:
+            - 'src/sitsformer/training/**'
+          config:
+            - 'configs/**'
+            - 'src/sitsformer/utils/config.py'
+          utils:
+            - 'src/sitsformer/utils/**'
+          docs:
+            - 'docs/**'
+            - '*.md'
+            - '*.rst'
+          tests:
+            - 'tests/**'
+          ci:
+            - '.github/workflows/**'
+            - '.github/actions/**'
+            - '.pre-commit-config.yaml'
+          docker:
+            - 'Dockerfile*'
+            - 'docker-compose*.yml'
+            - '.dockerignore'
+
+    - name: Label based on changed files
+      if: steps.changed-files.outputs.any_changed == 'true'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Function to add label
+        add_label() {
+          echo "Adding label: $1"
+          gh pr edit ${{ github.event.number }} --add-label "$1" || true
+        }
+
+        # Check each component and add appropriate labels
+        if [ "${{ steps.changed-files.outputs.model_any_changed }}" == "true" ]; then
+          add_label "component: model"
+        fi
+
+        if [ "${{ steps.changed-files.outputs.data_any_changed }}" == "true" ]; then
+          add_label "component: data"
+        fi
+
+        if [ "${{ steps.changed-files.outputs.training_any_changed }}" == "true" ]; then
+          add_label "component: training"
+        fi
+
+        if [ "${{ steps.changed-files.outputs.config_any_changed }}" == "true" ]; then
+          add_label "component: config"
+        fi
+
+        if [ "${{ steps.changed-files.outputs.utils_any_changed }}" == "true" ]; then
+          add_label "component: utils"
+        fi
+
+        if [ "${{ steps.changed-files.outputs.docs_any_changed }}" == "true" ]; then
+          add_label "type: documentation"
+        fi
+
+        if [ "${{ steps.changed-files.outputs.tests_any_changed }}" == "true" ]; then
+          add_label "testing"
+        fi
+
+        if [ "${{ steps.changed-files.outputs.ci_any_changed }}" == "true" ]; then
+          add_label "ci/cd"
+        fi
+
+        if [ "${{ steps.changed-files.outputs.docker_any_changed }}" == "true" ]; then
+          add_label "env: docker"
+        fi
+
+  security-labeler:
+    name: Security Labeling  
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' || github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Check for security keywords
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_BODY: ${{ github.event.issue.body || github.event.pull_request.body }}
+        ISSUE_TITLE: ${{ github.event.issue.title || github.event.pull_request.title }}
+      run: |
+        # Security keywords to detect
+        SECURITY_KEYWORDS="security|vulnerability|cve|exploit|injection|xss|csrf|authentication|authorization|privilege|escalation|backdoor|malware|phishing|dos|ddos"
+        
+        # Check title and body for security keywords
+        if echo "$ISSUE_TITLE $ISSUE_BODY" | grep -iE "$SECURITY_KEYWORDS" > /dev/null; then
+          echo "Security-related content detected, adding security label"
+          if [ "${{ github.event_name }}" = "issues" ]; then
+            gh issue edit ${{ github.event.issue.number }} --add-label "type: security"
+          else
+            gh pr edit ${{ github.event.pull_request.number }} --add-label "type: security"
+          fi
+        fi

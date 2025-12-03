@@ -1,0 +1,72 @@
+# SITSFormer Code Owners
+#
+# This file defines individuals or teams that are responsible for code
+# in this repository. Code owners are automatically requested for review
+# when someone opens a pull request that modifies code that they own.
+#
+# For more information about code owners, see:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global Owners - These users will be requested for review on all PRs
+* @maintainer-team brillozon@gmail.com
+
+# Core Package - Main SITSFormer implementation
+/src/sitsformer/ @core-team @maintainer-team
+
+# Model Architecture - Critical model components
+/src/sitsformer/models/ @model-team @core-team
+/src/sitsformer/layers.py @model-team @core-team
+
+# Data Pipeline - Data handling and processing
+/src/sitsformer/data/ @data-team @core-team
+/src/sitsformer/data/transforms.py @data-team
+
+# Training Infrastructure - Training and optimization
+/src/sitsformer/training/ @training-team @core-team
+/src/sitsformer/training/trainer.py @training-team
+
+# Configuration and Utilities
+/src/sitsformer/utils/ @core-team
+/configs/ @core-team @maintainer-team
+
+# Documentation - All documentation files
+/docs/ @docs-team @maintainer-team
+*.md @docs-team @maintainer-team
+*.rst @docs-team
+
+# Build and Packaging
+/pyproject.toml @maintainer-team @build-team
+/poetry.lock @maintainer-team @build-team
+/requirements.txt @build-team
+
+# CI/CD and GitHub Configuration
+/.github/ @maintainer-team @devops-team
+/.github/workflows/ @devops-team @maintainer-team
+/.pre-commit-config.yaml @devops-team
+
+# Tests - Testing infrastructure and test files
+/tests/ @test-team @core-team
+/tests/test_model.py @test-team @model-team
+/tests/test_data.py @test-team @data-team
+/tests/test_training.py @test-team @training-team
+
+# Examples and Notebooks
+/examples/ @docs-team @core-team
+/notebooks/ @docs-team @data-team
+/experiments/ @research-team @core-team
+
+# Security and Legal
+/SECURITY.md @maintainer-team @security-team
+/LICENSE @maintainer-team
+
+# Specific critical files that require additional review
+/src/sitsformer/__init__.py @maintainer-team @core-team
+/src/sitsformer/model.py @maintainer-team @model-team
+/README.md @maintainer-team @docs-team
+
+# Configuration files that affect the entire project
+/.gitignore @maintainer-team
+/.pre-commit-config.yaml @devops-team @maintainer-team
+
+# Research and experimental features
+/experiments/research/ @research-team @maintainer-team

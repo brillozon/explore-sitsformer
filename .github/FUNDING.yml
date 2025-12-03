@@ -1,0 +1,46 @@
+# GitHub Sponsors and Funding Configuration
+#
+# This file enables the display of sponsor links in the GitHub repository
+# sidebar and helps support the ongoing development of SITSFormer.
+
+This is a personal project maintained by a dedicated team of developers and contributors.
+
+There is no current source of funding for this project other than the donation of the developers and contributors time.
+If you find SITSFormer useful and would like to support its development,
+please consider sponsoring us through GitHub Sponsors or other platforms listed below.
+
+# GitHub Sponsors
+github: [sitsformer-team, lead-maintainer]
+
+# Patreon
+# patreon: sitsformer
+
+# Open Collective
+# open_collective: sitsformer
+
+# Ko-fi
+# ko_fi: sitsformer
+
+# Tidelift
+# tidelift: pypi/sitsformer
+
+# Community Bridge
+# community_bridge: sitsformer
+
+# Liberapay
+# liberapay: sitsformer-team
+
+# IssueHunt
+# issuehunt: sitsformer
+
+# Buy Me A Coffee
+# buy_me_a_coffee: sitsformer
+
+# LFX Crowdfunding
+# lfx_crowdfunding: sitsformer
+
+# Custom URLs for institutional or organizational funding
+# custom: [
+#   "https://your-institution.edu/research/funding",
+#   "https://your-organization.org/donate"
+# ]

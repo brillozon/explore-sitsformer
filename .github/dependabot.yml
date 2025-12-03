@@ -1,0 +1,122 @@
+version: 2
+
+updates:
+  # Python dependencies via Poetry
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "maintainer-team"
+    assignees:
+      - "security-team"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "python"
+    milestone: "next-release"
+    target-branch: "develop"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "06:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "devops-team"
+      - "maintainer-team"
+    assignees:
+      - "devops-team"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci/cd"
+
+  # Docker (if applicable)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "06:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "devops-team"
+    commit-message:
+      prefix: "docker"
+    labels:
+      - "dependencies"
+      - "docker"
+
+# Security updates configuration
+security:
+  # Enable automatic security updates
+  auto-merge:
+    # Auto-merge patch-level security updates
+    dependency-type: "production"
+    update-type: "security"
+  
+  # Security update schedule (more frequent)
+  schedule:
+    interval: "daily"
+    time: "09:00"
+
+# Ignore specific dependencies
+ignore:
+  # Ignore major version updates for stable dependencies
+  - dependency-name: "torch"
+    update-types: ["version-update:semver-major"]
+  - dependency-name: "torchvision"
+    update-types: ["version-update:semver-major"]
+  
+  # Ignore development tools major updates unless critical
+  - dependency-name: "black"
+    update-types: ["version-update:semver-major"]
+  - dependency-name: "flake8"
+    update-types: ["version-update:semver-major"]
+
+# Group related dependencies
+groups:
+  pytorch:
+    patterns:
+      - "torch*"
+      - "torchvision"
+      - "torchaudio"
+    
+  testing:
+    patterns:
+      - "pytest*"
+      - "coverage"
+      - "hypothesis"
+    
+  linting:
+    patterns:
+      - "black"
+      - "isort"
+      - "flake8"
+      - "mypy"
+      - "pylint"
+    
+  documentation:
+    patterns:
+      - "sphinx*"
+      - "myst*"
+      - "furo"
+    
+  security:
+    patterns:
+      - "bandit"
+      - "safety"
+      - "semgrep"

@@ -1,0 +1,91 @@
+# Configuration for the issue-labeler action
+# This file contains patterns to automatically label issues and PRs based on their content
+
+# Bug-related patterns
+bug:
+  - '\b(bug|error|issue|problem|broken|fail|crash|exception)\b'
+  - 'not working'
+  - 'doesn\'t work'
+  - 'traceback'
+  - 'stack trace'
+
+# Feature request patterns  
+enhancement:
+  - '\b(feature|enhancement|improvement|add|implement|support)\b'
+  - 'would be nice'
+  - 'could we'
+  - 'feature request'
+
+# Documentation patterns
+documentation:
+  - '\b(doc|documentation|readme|tutorial|guide|example)\b'
+  - 'unclear'
+  - 'confusing'
+  - 'explain'
+  - 'document'
+
+# Performance patterns
+performance:
+  - '\b(performance|speed|slow|fast|optimize|efficiency|memory|cpu|gpu)\b'
+  - 'takes too long'
+  - 'out of memory'
+  - 'oom'
+
+# Testing patterns
+testing:
+  - '\b(test|testing|pytest|unittest|coverage)\b'
+  - 'test case'
+  - 'test fails'
+
+# Question patterns
+question:
+  - '\b(question|how to|how do|why|what|when|where)\b'
+  - 'help'
+  - 'guidance'
+  - 'advice'
+
+# Security patterns
+security:
+  - '\b(security|vulnerability|exploit|cve|auth|permission|access)\b'
+  - 'security issue'
+  - 'vulnerable'
+
+# Model-specific patterns  
+model:
+  - '\b(model|transformer|attention|architecture|layer)\b'
+  - 'neural network'
+  - 'forward pass'
+  - 'weights'
+
+# Data-related patterns
+data:
+  - '\b(data|dataset|loading|preprocessing|augmentation|transform)\b'
+  - 'dataloader'
+  - 'data pipeline'
+
+# Training patterns
+training:
+  - '\b(training|train|optimizer|loss|gradient|epoch|batch)\b'
+  - 'learning rate'
+  - 'convergence'
+
+# Environment patterns
+docker:
+  - '\b(docker|container|dockerfile|compose)\b'
+  - 'containerize'
+
+gpu:
+  - '\b(gpu|cuda|nvidia|memory error|out of memory)\b'
+  - 'gpu memory'
+
+# Priority patterns (high priority indicators)
+priority-high:
+  - '\b(critical|urgent|blocking|blocker|production)\b'
+  - 'asap'
+  - 'immediately'
+
+# Breaking change patterns
+breaking-change:
+  - '\b(breaking|break|backward compatibility|api change)\b'
+  - 'breaking change'
+  - 'not compatible'
