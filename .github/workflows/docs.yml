@@ -32,7 +32,7 @@ jobs:
         virtualenvs-in-project: true
     
     - name: Install dependencies
-      run: poetry install --extras docs
+      run: poetry install --with docs
     
     - name: Build documentation
       run: |
