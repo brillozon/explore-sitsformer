@@ -1,6 +1,5 @@
 """Test SITS-Former model creation and basic functionality."""
 
-import pytest
 import torch
 
 from sitsformer.models import create_sits_former

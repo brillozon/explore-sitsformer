@@ -158,7 +158,7 @@ def run_inference(model, data_loader, device):
 
     inference_time = time.time() - start_time
     print(f"Inference completed in {inference_time:.2f}s")
-    print(f"Average time per sample: {inference_time/total_samples:.4f}s")
+    print(f"Average time per sample: {inference_time / total_samples:.4f}s")
 
     return {
         "predictions": predictions,
@@ -347,7 +347,8 @@ def main():
     logger.info(f"  Total samples: {results['total_samples']}")
     logger.info(f"  Inference time: {results['inference_time']:.2f}s")
     logger.info(
-        f"  Average time per sample: {results['inference_time']/results['total_samples']:.4f}s"
+        f"  Average time per sample: "
+        f"{results['inference_time'] / results['total_samples']:.4f}s"
     )
 
     # Class distribution

@@ -5,9 +5,8 @@ Training utilities and trainer class for SITS-Former.
 import logging
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
-import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim

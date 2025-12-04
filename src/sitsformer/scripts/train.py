@@ -17,7 +17,7 @@ from pathlib import Path
 import torch
 import wandb
 
-from sitsformer.data import DummySatelliteDataset, create_dataloader, split_dataset
+from sitsformer.data import DummySatelliteDataset, create_dataloader
 from sitsformer.evaluation import ModelEvaluator
 from sitsformer.models import create_sits_former
 from sitsformer.training import (

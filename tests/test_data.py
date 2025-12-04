@@ -1,8 +1,5 @@
 """Test data utilities."""
 
-import pytest
-import torch
-
 from sitsformer.data import DummySatelliteDataset, create_dataloader
 
 
