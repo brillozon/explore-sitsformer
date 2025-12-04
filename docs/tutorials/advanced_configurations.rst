@@ -881,7 +881,7 @@ Fusion with Auxiliary Data
             return output
 
 Experimental Features
---------------------
+---------------------
 
 Self-Supervised Learning
 ~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,5 +1,5 @@
 Data Preparation for Satellite Image Time Series
-===============================================
+=================================================
 
 This tutorial covers the complete data preparation pipeline for satellite image time series analysis using SITS-Former. We'll walk through data organization, preprocessing, normalization, and dataset creation.
 

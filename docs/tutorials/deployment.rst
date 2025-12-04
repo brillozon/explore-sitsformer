@@ -1,5 +1,5 @@
 Model Deployment and Production
-===============================
+================================
 
 This tutorial covers deploying SITS-Former models for production use, including model optimization, containerization, API development, batch processing, and cloud deployment strategies.
 
@@ -1297,7 +1297,7 @@ Prometheus Metrics
     start_http_server(8001)
 
 Model Drift Detection
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -1458,7 +1458,7 @@ Pre-deployment Validation
    - Monitoring and logging functional
 
 Production Deployment Steps
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. **Pre-deployment**
    - Backup current model

@@ -1,5 +1,5 @@
 Model Training with SITS-Former
-===============================
+================================
 
 This tutorial covers the complete training pipeline for SITS-Former models, from basic training setup to advanced techniques like mixed precision training, distributed training, and hyperparameter optimization.
 
@@ -597,7 +597,7 @@ Training Monitoring and Visualization
 -------------------------------------
 
 Real-time Monitoring
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 

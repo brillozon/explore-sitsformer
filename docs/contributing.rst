@@ -79,7 +79,7 @@ Testing
     poetry run pytest --cov=sitsformer
 
 Pull Request Process
--------------------
+--------------------
 
 1. Create a feature branch from main
 2. Make your changes

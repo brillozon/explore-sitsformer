@@ -31,7 +31,7 @@ Loading and Processing Data
     )
 
 Training a Model
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ Training a Model
     trainer.train()
 
 Making Predictions
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -62,7 +62,7 @@ Making Predictions
         predictions = model(input_sequences)
 
 Command Line Interface
----------------------
+----------------------
 
 SITS-Former provides convenient command-line tools:
 
@@ -94,7 +94,7 @@ Inference
     sitsformer-inference --model_path checkpoints/best_model.pth --input_data /path/to/new/data
 
 Configuration Files
-------------------
+-------------------
 
 SITS-Former uses YAML configuration files for reproducible experiments:
 
