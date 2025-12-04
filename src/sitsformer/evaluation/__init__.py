@@ -3,7 +3,7 @@ Evaluation utilities and metrics for SITS-Former models.
 
 This module provides comprehensive evaluation tools for assessing model performance
 on satellite image time series classification tasks. It includes standard classification
-metrics, remote sensing specific evaluations, model complexity analysis, and 
+metrics, remote sensing specific evaluations, model complexity analysis, and
 visualization utilities.
 
 Key Components:
@@ -32,29 +32,29 @@ Example:
 
         from sitsformer.evaluation import ModelEvaluator
         from sitsformer.models import SITSFormer
-        
+
         # Create evaluator
         evaluator = ModelEvaluator(
             model=model,
             device='cuda',
             class_names=['Forest', 'Urban', 'Water', 'Agriculture']
         )
-        
+
         # Evaluate on test set
         results = evaluator.evaluate(test_loader)
-        
+
         # Print detailed results
         evaluator.print_results(results)
-        
+
         # Generate visualizations
         evaluator.plot_confusion_matrix(results)
         evaluator.plot_classification_report(results)
-        
+
         # Model complexity analysis
         flops, params = calculate_flops(model, input_shape=(10, 13, 224, 224))
         summary = model_summary(model)
 """
 
-from .metrics import ModelEvaluator, calculate_flops, model_summary, compare_models
+from .metrics import ModelEvaluator, calculate_flops, compare_models, model_summary
 
-__all__ = ['ModelEvaluator', 'calculate_flops', 'model_summary', 'compare_models']
+__all__ = ["ModelEvaluator", "calculate_flops", "model_summary", "compare_models"]

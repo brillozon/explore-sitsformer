@@ -26,11 +26,11 @@ Example:
 
         from sitsformer.training import SITSFormerTrainer, create_optimizer
         from sitsformer.models import SITSFormer
-        
+
         # Create model and optimizer
         model = SITSFormer(num_classes=10, embed_dim=256)
         optimizer = create_optimizer(model.parameters(), 'adamw', lr=1e-4)
-        
+
         # Create trainer
         trainer = SITSFormerTrainer(
             model=model,
@@ -38,11 +38,21 @@ Example:
             device='cuda',
             mixed_precision=True
         )
-        
+
         # Train the model
         trainer.train(train_loader, val_loader, epochs=100)
 """
 
-from .trainer import SITSFormerTrainer, create_optimizer, create_scheduler, create_criterion
+from .trainer import (
+    SITSFormerTrainer,
+    create_criterion,
+    create_optimizer,
+    create_scheduler,
+)
 
-__all__ = ['SITSFormerTrainer', 'create_optimizer', 'create_scheduler', 'create_criterion']
+__all__ = [
+    "SITSFormerTrainer",
+    "create_optimizer",
+    "create_scheduler",
+    "create_criterion",
+]

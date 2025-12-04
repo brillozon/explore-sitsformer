@@ -1,9 +1,9 @@
 """
 SITS-Former: Satellite Image Time Series Transformer
 
-A PyTorch implementation of transformer-based models for satellite image time series 
-analysis and classification. SITS-Former is designed for processing temporal sequences 
-of satellite imagery for various remote sensing applications including land cover 
+A PyTorch implementation of transformer-based models for satellite image time series
+analysis and classification. SITS-Former is designed for processing temporal sequences
+of satellite imagery for various remote sensing applications including land cover
 classification, crop monitoring, and change detection.
 
 Key Features:
@@ -19,7 +19,7 @@ Example:
 
         from sitsformer.models import SITSFormer
         from sitsformer.data import SatelliteTimeSeriesDataset
-        
+
         # Create model
         model = SITSFormer(
             input_dim=13,  # Sentinel-2 bands
@@ -28,7 +28,7 @@ Example:
             nhead=8,
             num_layers=6
         )
-        
+
         # Load data
         dataset = SatelliteTimeSeriesDataset(
             data_dir="path/to/data",
@@ -36,14 +36,10 @@ Example:
         )
 """
 
-from . import models
-from . import data
-from . import training
-from . import evaluation
-from . import utils
+from . import data, evaluation, models, training, utils
 
 __version__ = "0.1.0"
 __author__ = "Mike Martinez"
 __email__ = "brillozon@gmail.com"
 
-__all__ = ['models', 'data', 'training', 'evaluation', 'utils']
+__all__ = ["models", "data", "training", "evaluation", "utils"]
