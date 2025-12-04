@@ -24,8 +24,8 @@ Features:
 Example:
     Basic training setup::
 
-        from sitsformer.training import SITSFormerTrainer, create_optimizer
-        from sitsformer.models import SITSFormer
+        from ..training import SITSFormerTrainer, create_optimizer
+        from ..models import SITSFormer
 
         # Create model and optimizer
         model = SITSFormer(num_classes=10, embed_dim=256)

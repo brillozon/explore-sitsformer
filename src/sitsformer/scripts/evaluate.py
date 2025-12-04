@@ -14,10 +14,10 @@ from pathlib import Path
 
 import torch
 
-from sitsformer.data import DummySatelliteDataset, create_dataloader
-from sitsformer.evaluation import ModelEvaluator
-from sitsformer.models import create_sits_former
-from sitsformer.utils import (
+from ..data import DummySatelliteDataset, create_dataloader
+from ..evaluation import ModelEvaluator
+from ..models import create_sits_former
+from ..utils import (
     get_device,
     get_system_info,
     load_config,

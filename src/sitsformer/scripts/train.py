@@ -17,16 +17,16 @@ from pathlib import Path
 import torch
 import wandb
 
-from sitsformer.data import DummySatelliteDataset, create_dataloader
-from sitsformer.evaluation import ModelEvaluator
-from sitsformer.models import create_sits_former
-from sitsformer.training import (
+from ..data import DummySatelliteDataset, create_dataloader
+from ..evaluation import ModelEvaluator
+from ..models import create_sits_former
+from ..training import (
     SITSFormerTrainer,
     create_criterion,
     create_optimizer,
     create_scheduler,
 )
-from sitsformer.utils import (
+from ..utils import (
     backup_code,
     create_checkpoint_dir,
     create_experiment_name,
