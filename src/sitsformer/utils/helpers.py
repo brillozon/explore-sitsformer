@@ -275,15 +275,24 @@ def get_git_info() -> Dict[str, str]:
     Returns:
         Dictionary with git information
     """
-    import subprocess
+    import subprocess  # nosec B404 - subprocess needed for git operations
+    import shutil
 
     git_info = {}
+
+    # First check if git is available
+    git_executable = shutil.which("git")
+    if not git_executable:
+        git_info["error"] = "git executable not found"
+        return git_info
 
     try:
         # Get current commit hash
         git_info["commit_hash"] = (
-            subprocess.check_output(
-                ["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL
+            subprocess.check_output(  # nosec B603 - git commands are safe
+                [git_executable, "rev-parse", "HEAD"], 
+                stderr=subprocess.DEVNULL,
+                timeout=10  # Add timeout for security
             )
             .decode("utf-8")
             .strip()
@@ -291,8 +300,10 @@ def get_git_info() -> Dict[str, str]:
 
         # Get current branch
         git_info["branch"] = (
-            subprocess.check_output(
-                ["git", "rev-parse", "--abbrev-ref", "HEAD"], stderr=subprocess.DEVNULL
+            subprocess.check_output(  # nosec B603 - git commands are safe
+                [git_executable, "rev-parse", "--abbrev-ref", "HEAD"], 
+                stderr=subprocess.DEVNULL,
+                timeout=10  # Add timeout for security
             )
             .decode("utf-8")
             .strip()
@@ -300,15 +311,16 @@ def get_git_info() -> Dict[str, str]:
 
         # Check if repository is dirty
         try:
-            subprocess.check_output(
-                ["git", "diff-index", "--quiet", "HEAD", "--"],
+            subprocess.check_output(  # nosec B603 - git commands are safe
+                [git_executable, "diff-index", "--quiet", "HEAD", "--"],
                 stderr=subprocess.DEVNULL,
+                timeout=10  # Add timeout for security
             )
             git_info["dirty"] = False
         except subprocess.CalledProcessError:
             git_info["dirty"] = True
 
-    except Exception as e:
+    except (subprocess.TimeoutExpired, OSError, subprocess.CalledProcessError) as e:
         git_info["error"] = str(e)
 
     return git_info

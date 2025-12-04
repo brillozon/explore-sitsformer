@@ -128,9 +128,10 @@ def validate_config(config: Dict[str, Any]) -> Dict[str, Any]:
 
     # Validate model configuration
     model_config = config.get("model", {})
-    assert (
-        model_config.get("embed_dim", 768) % model_config.get("num_heads", 12) == 0
-    ), "embed_dim must be divisible by num_heads"
+    embed_dim = model_config.get("embed_dim", 768)
+    num_heads = model_config.get("num_heads", 12)
+    if embed_dim % num_heads != 0:
+        raise ValueError(f"embed_dim ({embed_dim}) must be divisible by num_heads ({num_heads})")
 
     # Validate data splitting ratios
     data_config = config.get("data", {})
@@ -139,14 +140,19 @@ def validate_config(config: Dict[str, Any]) -> Dict[str, Any]:
         data_config.get("val_ratio", 0.15),
         data_config.get("test_ratio", 0.15),
     ]
-    assert abs(sum(ratios) - 1.0) < 1e-6, "Data split ratios must sum to 1.0"
+    ratio_sum = sum(ratios)
+    if abs(ratio_sum - 1.0) >= 1e-6:
+        raise ValueError(f"Data split ratios must sum to 1.0, got {ratio_sum}")
 
     # Validate training configuration
     training_config = config.get("training", {})
-    assert training_config.get("batch_size", 32) > 0, "batch_size must be positive"
-    assert (
-        training_config.get("learning_rate", 1e-4) > 0
-    ), "learning_rate must be positive"
+    batch_size = training_config.get("batch_size", 32)
+    learning_rate = training_config.get("learning_rate", 1e-4)
+    
+    if batch_size <= 0:
+        raise ValueError(f"batch_size must be positive, got {batch_size}")
+    if learning_rate <= 0:
+        raise ValueError(f"learning_rate must be positive, got {learning_rate}")
 
     return config
 
