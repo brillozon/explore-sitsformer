@@ -681,7 +681,7 @@ Inference Optimization
         
         def _load_model(self, model_path: str):
             """Load model from checkpoint."""
-            checkpoint = torch.load(model_path, map_location=self.device)
+            checkpoint = torch.load(model_path, map_location=self.device, weights_only=True)
             
             # Get model configuration
             model_config = checkpoint.get('model_config', {})

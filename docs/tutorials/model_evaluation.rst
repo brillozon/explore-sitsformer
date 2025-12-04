@@ -50,7 +50,7 @@ Loading Model for Evaluation
     def load_model_for_evaluation(checkpoint_path, device='cpu'):
         """Load trained model for evaluation."""
         
-        checkpoint = torch.load(checkpoint_path, map_location=device)
+        checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=True)
         model_config = checkpoint.get('model_config', {})
         
         # Create model

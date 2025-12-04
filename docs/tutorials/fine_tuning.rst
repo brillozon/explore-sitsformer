@@ -45,7 +45,7 @@ From Checkpoint
         """Load a pre-trained SITS-Former model from checkpoint."""
         print(f"Loading pre-trained model from {checkpoint_path}")
         
-        checkpoint = torch.load(checkpoint_path, map_location=device)
+        checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=True)
         
         # Extract model configuration if available
         model_config = checkpoint.get('model_config', {

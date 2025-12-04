@@ -54,7 +54,7 @@ Making Predictions
 .. code-block:: python
 
     # Load trained model
-    model.load_state_dict(torch.load("checkpoints/best_model.pth"))
+    model.load_state_dict(torch.load("checkpoints/best_model.pth", weights_only=True))
     model.eval()
     
     # Make predictions

@@ -563,7 +563,7 @@ Loading and Resuming Training
         \"\"\"Load checkpoint and resume training.\"\"\"
         print(f"Loading checkpoint from {checkpoint_path}")
         
-        checkpoint = torch.load(checkpoint_path, map_location=device)
+        checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=True)
         
         # Load model state
         model.load_state_dict(checkpoint['model_state_dict'])
