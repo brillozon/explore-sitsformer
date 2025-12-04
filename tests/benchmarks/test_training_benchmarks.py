@@ -13,8 +13,11 @@ import time
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 try:
-    from sitsformer.models.sits_former import SITSFormer
-    from sitsformer.training.trainer import Trainer
+    # Import directly to avoid circular import
+    import sitsformer.models.sits_former as sits_former_module
+    import sitsformer.training.trainer as trainer_module
+    SITSFormer = sits_former_module.SITSFormer
+    SITSFormerTrainer = trainer_module.SITSFormerTrainer
 except ImportError:
     # Create mock classes if imports fail
     class SITSFormer(nn.Module):
@@ -36,7 +39,7 @@ except ImportError:
             x = x.mean(dim=1)  # Global average pooling
             return self.classifier(x)
 
-    class Trainer:
+    class SITSFormerTrainer:
         def __init__(self, *args, **kwargs):
             pass
 

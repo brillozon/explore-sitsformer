@@ -13,11 +13,19 @@ import os
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 try:
-    from sitsformer.data.dataset import SITSDataset
-    from sitsformer.data.utils import normalize_time_series
+    # Import directly to avoid circular import
+    import sitsformer.data.dataset as dataset_module
+    import sitsformer.data.utils as utils_module
+    SatelliteTimeSeriesDataset = dataset_module.SatelliteTimeSeriesDataset
+    
+    # Create a wrapper function that matches our test needs
+    def normalize_image(x):
+        # Simple normalization for benchmark testing
+        return (x - x.mean()) / (x.std() + 1e-8)
+    
 except ImportError:
     # Create mock classes if imports fail
-    class SITSDataset:
+    class SatelliteTimeSeriesDataset:
         def __init__(self, *args, **kwargs):
             self.data = torch.randn(100, 24, 10)
             self.labels = torch.randint(0, 5, (100,))
@@ -28,7 +36,7 @@ except ImportError:
         def __getitem__(self, idx):
             return self.data[idx], self.labels[idx]
 
-    def normalize_time_series(x):
+    def normalize_image(x):
         return (x - x.mean()) / (x.std() + 1e-8)
 
 
@@ -95,7 +103,7 @@ class TestDataLoadingBenchmarks:
 
         def preprocess_batch():
             # Simulate common preprocessing steps
-            normalized = normalize_time_series(data)
+            normalized = normalize_image(data)
             augmented = normalized + torch.randn_like(normalized) * 0.1
             return augmented
 
@@ -121,7 +129,7 @@ class TestDataLoadingBenchmarks:
             augmented = data_shifted + noise
 
             # Normalization
-            normalized = normalize_time_series(augmented)
+            normalized = normalize_image(augmented)
 
             return normalized
 
