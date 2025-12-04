@@ -22,7 +22,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install Poetry
-      uses: snok/install-poetry@v2
+      uses: snok/install-poetry@v1.4.1
       with:
         version: latest
         virtualenvs-create: true
@@ -65,13 +65,13 @@ jobs:
         python-version: 3.12.x
 
     - name: Install Poetry
-      uses: snok/install-poetry@v2
+      uses: snok/install-poetry@v1.4.1
 
     - name: Build package
       run: poetry build
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v4.6.2
       with:
         name: dist
         path: dist/
