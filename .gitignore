@@ -173,8 +173,9 @@ cython_debug/
 *.vsix
 
 # Machine Learning / Data Science
-# Datasets
+# Datasets (but not source code in src/)
 data/
+!src/*/data/
 datasets/
 *.csv
 *.h5
@@ -184,9 +185,10 @@ datasets/
 *.npz
 *.npy
 
-# Model checkpoints and weights
+# Model checkpoints and weights (but not source code in src/)
 checkpoints/
 models/
+!src/*/models/
 weights/
 *.pth
 *.pt
