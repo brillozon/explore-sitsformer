@@ -219,7 +219,8 @@ class SITSFormerBlock(nn.Module):
     Args:
         embed_dim (int): Dimension of input embeddings
         num_heads (int): Number of attention heads. Default: 8
-        mlp_ratio (int): Ratio for MLP hidden dimension (hidden_dim = embed_dim * mlp_ratio). Default: 4
+        mlp_ratio (int): Ratio for MLP hidden dimension
+            (hidden_dim = embed_dim * mlp_ratio). Default: 4
         dropout (float): Dropout probability. Default: 0.1
 
     Attributes:

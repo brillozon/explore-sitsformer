@@ -2,10 +2,8 @@
 
 import os
 import sys
-import tempfile
 from pathlib import Path
 
-import numpy as np
 import pytest
 import torch
 from torch.utils.data import DataLoader, TensorDataset
@@ -16,7 +14,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 try:
     # Import directly to avoid circular import
     import sitsformer.data.dataset as dataset_module
-    import sitsformer.data.utils as utils_module
 
     SatelliteTimeSeriesDataset = dataset_module.SatelliteTimeSeriesDataset
 
@@ -141,8 +138,6 @@ class TestDataLoadingBenchmarks:
     @pytest.mark.memory
     def test_memory_efficient_loading(self, sample_dataset_large):
         """Test memory usage during data loading."""
-        import os
-
         import psutil
 
         process = psutil.Process(os.getpid())

@@ -199,9 +199,14 @@ def get_config_summary(config: Dict[str, Any]) -> str:
 
     summary_lines = [
         "Configuration Summary:",
-        f"Model: {model_cfg.get('embed_dim', 768)}d, {model_cfg.get('num_layers', 12)} layers, {model_cfg.get('num_heads', 12)} heads",
-        f"Data: {data_cfg.get('sequence_length', 10)} timesteps, {data_cfg.get('image_size', 224)}px images",
-        f"Training: {training_cfg.get('batch_size', 32)} batch size, {training_cfg.get('learning_rate', 1e-4):.0e} LR, {training_cfg.get('epochs', 100)} epochs",
+        f"Model: {model_cfg.get('embed_dim', 768)}d, "
+        f"{model_cfg.get('num_layers', 12)} layers, "
+        f"{model_cfg.get('num_heads', 12)} heads",
+        f"Data: {data_cfg.get('sequence_length', 10)} timesteps, "
+        f"{data_cfg.get('image_size', 224)}px images",
+        f"Training: {training_cfg.get('batch_size', 32)} batch size, "
+        f"{training_cfg.get('learning_rate', 1e-4):.0e} LR, "
+        f"{training_cfg.get('epochs', 100)} epochs",
         f"Classes: {model_cfg.get('num_classes', 10)}",
     ]
 

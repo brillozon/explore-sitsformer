@@ -34,7 +34,6 @@ except ImportError:
 
         def forward(self, x):
             # Simple mock forward pass for image data
-            batch_size = x.size(0)
             x = x.flatten(2).mean(dim=-1)  # Average spatial dimensions
             if x.size(-1) != self.layers[0].in_features:
                 linear = nn.Linear(x.size(-1), self.layers[0].in_features)

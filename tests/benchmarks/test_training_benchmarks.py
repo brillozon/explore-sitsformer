@@ -31,7 +31,6 @@ except ImportError:
 
         def forward(self, x):
             # Simple mock forward pass for image data
-            batch_size = x.size(0)
             # Flatten spatial dimensions and process as sequence
             x = x.flatten(2).mean(dim=-1)  # Average over spatial dimensions
             if x.size(-1) != 128:

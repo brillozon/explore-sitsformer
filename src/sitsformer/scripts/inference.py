@@ -6,8 +6,10 @@ This script provides inference capabilities for trained SITS-Former models
 on new satellite image time series data.
 
 Usage:
-    python -m sitsformer.scripts.inference --checkpoint checkpoints/best_model.pt --input /path/to/data
-    python -m sitsformer.scripts.inference --checkpoint checkpoints/best_model.pt --dummy-data
+    python -m sitsformer.scripts.inference --checkpoint checkpoints/best_model.pt \
+           --input /path/to/data
+    python -m sitsformer.scripts.inference --checkpoint checkpoints/best_model.pt \
+           --dummy-data
 """
 
 import argparse
@@ -99,7 +101,7 @@ def load_model_and_config(checkpoint_path, config_path=None):
     # Load state dict
     model.load_state_dict(checkpoint["model_state_dict"])
 
-    print(f"Model loaded successfully")
+    print("Model loaded successfully")
     if "epoch" in checkpoint:
         print(f"Checkpoint epoch: {checkpoint['epoch']}")
 

@@ -365,8 +365,8 @@ def create_criterion(config: Dict) -> nn.Module:
         return nn.CrossEntropyLoss()
     elif criterion_type == "focal":
         # Placeholder for focal loss implementation
-        alpha = config.get("focal_alpha", 1.0)
-        gamma = config.get("focal_gamma", 2.0)
+        # TODO: Implement actual focal loss using config.get("focal_alpha", 1.0)
+        # and config.get("focal_gamma", 2.0)
         return nn.CrossEntropyLoss()  # Replace with actual focal loss
     elif criterion_type == "label_smoothing":
         smoothing = config.get("label_smoothing", 0.1)

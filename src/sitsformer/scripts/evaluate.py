@@ -5,8 +5,10 @@ Evaluation script for SITS-Former.
 This script provides evaluation capabilities for trained SITS-Former models.
 
 Usage:
-    python -m sitsformer.scripts.evaluate --checkpoint checkpoints/best_model.pt --config configs/default.yaml
-    python -m sitsformer.scripts.evaluate --checkpoint checkpoints/best_model.pt --test-data /path/to/test/data
+    python -m sitsformer.scripts.evaluate --checkpoint checkpoints/best_model.pt \
+           --config configs/default.yaml
+    python -m sitsformer.scripts.evaluate --checkpoint checkpoints/best_model.pt \
+           --test-data /path/to/test/data
 """
 
 import argparse
@@ -93,7 +95,7 @@ def load_model_and_config(checkpoint_path, config_path=None):
     # Load state dict
     model.load_state_dict(checkpoint["model_state_dict"])
 
-    print(f"Model loaded successfully")
+    print("Model loaded successfully")
     if "epoch" in checkpoint:
         print(f"Checkpoint epoch: {checkpoint['epoch']}")
     if "best_val_loss" in checkpoint:
@@ -226,7 +228,7 @@ def main():
     logger.info("Creating visualizations...")
 
     # Confusion matrix
-    fig = evaluator.plot_confusion_matrix(
+    evaluator.plot_confusion_matrix(
         true_labels,
         predictions,
         class_names,
@@ -235,7 +237,7 @@ def main():
     logger.info("Confusion matrix saved")
 
     # Per-class performance
-    fig = evaluator.plot_class_performance(
+    evaluator.plot_class_performance(
         results, save_path=output_dir / "class_performance.png"
     )
     logger.info("Class performance plot saved")
