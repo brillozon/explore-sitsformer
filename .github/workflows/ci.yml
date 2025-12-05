@@ -42,9 +42,18 @@ jobs:
     - name: Install project
       run: poetry install --no-interaction --with dev
 
+    - name: Verify installation
+      run: |
+        poetry run python -c "import sys; print('Python path:', sys.path)"
+        poetry run python -c "import sitsformer; print('Package version:', sitsformer.__version__)"
+        poetry run python -c "from sitsformer.data import DummySatelliteDataset; print('Data import: OK')"
+        poetry run python -c "from sitsformer.models import create_sits_former; print('Models import: OK')"
+
     - name: Run tests
       run: |
-        poetry run pytest
+        pwd
+        ls -la src/
+        poetry run pytest --verbose
 
     - name: Run linting
       run: |
