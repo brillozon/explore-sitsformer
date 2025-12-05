@@ -316,7 +316,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- **Documentation**: [https://sitsformer.readthedocs.io](https://sitsformer.readthedocs.io)
+- **Documentation**: Available in the [docs/](docs/) directory
 - **Paper**: [arXiv:xxxx.xxxxx](https://arxiv.org)
 - **Issues**: [GitHub Issues](https://github.com/yourusername/sitsformer/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/yourusername/sitsformer/discussions)

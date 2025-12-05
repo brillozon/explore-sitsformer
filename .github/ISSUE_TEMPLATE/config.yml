@@ -4,7 +4,7 @@ contact_links:
     url: https://github.com/sitsformer/sitsformer/discussions
     about: For general discussions, ideas, and community questions
   - name: 📖 Documentation
-    url: https://sitsformer.readthedocs.io
+    url: https://github.com/brillozon/explore-sitsformer/tree/main/docs
     about: Check our comprehensive documentation and tutorials
   - name: 💡 Feature Discussions
     url: https://github.com/sitsformer/sitsformer/discussions/categories/ideas
