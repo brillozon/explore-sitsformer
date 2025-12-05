@@ -30,18 +30,35 @@ except ImportError:
             self.classifier = torch.nn.Linear(embed_dim, num_classes)
 
         def forward(self, x):
-            # Mock forward pass for image tensor
+            # Mock forward pass for SITS tensor: (batch, sequence, channels, height, width)
             batch_size = x.size(0)
-            # Flatten and reduce to feature vector
-            x = x.flatten(2).mean(dim=-1)  # Average spatial dimensions
+            
+            # Handle different input shapes gracefully
+            if len(x.shape) == 5:  # (batch, seq, channels, height, width)
+                # Flatten spatial and channel dimensions, keep sequence
+                x = x.flatten(2).mean(dim=-1)  # (batch, seq, features)
+            elif len(x.shape) == 4:  # (batch, channels, height, width)
+                x = x.flatten(1).mean(dim=-1, keepdim=True)  # (batch, 1, features)
+            elif len(x.shape) == 3:  # (batch, seq, features)
+                pass  # Already in correct format
+            elif len(x.shape) == 2:  # (batch, features)
+                x = x.unsqueeze(1)  # (batch, 1, features)
+            else:
+                # Fallback: create appropriate features
+                x = torch.randn(batch_size, 1, self.layers[0].in_features, device=x.device)
+
+            # Ensure we have the right feature dimension
             if x.size(-1) != self.layers[0].in_features:
                 # Project to correct dimension
-                linear = torch.nn.Linear(x.size(-1), self.layers[0].in_features)
+                linear = torch.nn.Linear(x.size(-1), self.layers[0].in_features, device=x.device)
                 x = linear(x)
 
+            # Process through mock transformer layers
             for layer in self.layers:
                 x = torch.relu(layer(x))
-            x = x.mean(dim=1)  # Average over time dimension
+            
+            # Global average pooling over sequence dimension
+            x = x.mean(dim=1)  # (batch, features)
             return self.classifier(x)
 
 
