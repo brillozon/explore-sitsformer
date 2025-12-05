@@ -16,6 +16,7 @@ try:
     # Import directly to avoid circular import
     import sitsformer.models.sits_former as sits_former_module
     import sitsformer.training.trainer as trainer_module
+
     SITSFormer = sits_former_module.SITSFormer
     SITSFormerTrainer = trainer_module.SITSFormerTrainer
 except ImportError:

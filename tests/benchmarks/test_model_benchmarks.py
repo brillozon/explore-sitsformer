@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 try:
     # Import directly to avoid circular import
     import sitsformer.models.sits_former as sits_former_module
+
     SITSFormer = sits_former_module.SITSFormer
 except ImportError:
     # Create mock classes if imports fail

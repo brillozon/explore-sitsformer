@@ -290,9 +290,9 @@ def get_git_info() -> Dict[str, str]:
         # Get current commit hash
         git_info["commit_hash"] = (
             subprocess.check_output(  # nosec B603 - git commands are safe
-                [git_executable, "rev-parse", "HEAD"], 
+                [git_executable, "rev-parse", "HEAD"],
                 stderr=subprocess.DEVNULL,
-                timeout=10  # Add timeout for security
+                timeout=10,  # Add timeout for security
             )
             .decode("utf-8")
             .strip()
@@ -301,9 +301,9 @@ def get_git_info() -> Dict[str, str]:
         # Get current branch
         git_info["branch"] = (
             subprocess.check_output(  # nosec B603 - git commands are safe
-                [git_executable, "rev-parse", "--abbrev-ref", "HEAD"], 
+                [git_executable, "rev-parse", "--abbrev-ref", "HEAD"],
                 stderr=subprocess.DEVNULL,
-                timeout=10  # Add timeout for security
+                timeout=10,  # Add timeout for security
             )
             .decode("utf-8")
             .strip()
@@ -314,7 +314,7 @@ def get_git_info() -> Dict[str, str]:
             subprocess.check_output(  # nosec B603 - git commands are safe
                 [git_executable, "diff-index", "--quiet", "HEAD", "--"],
                 stderr=subprocess.DEVNULL,
-                timeout=10  # Add timeout for security
+                timeout=10,  # Add timeout for security
             )
             git_info["dirty"] = False
         except subprocess.CalledProcessError:

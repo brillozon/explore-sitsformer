@@ -16,13 +16,14 @@ try:
     # Import directly to avoid circular import
     import sitsformer.data.dataset as dataset_module
     import sitsformer.data.utils as utils_module
+
     SatelliteTimeSeriesDataset = dataset_module.SatelliteTimeSeriesDataset
-    
+
     # Create a wrapper function that matches our test needs
     def normalize_image(x):
         # Simple normalization for benchmark testing
         return (x - x.mean()) / (x.std() + 1e-8)
-    
+
 except ImportError:
     # Create mock classes if imports fail
     class SatelliteTimeSeriesDataset:
