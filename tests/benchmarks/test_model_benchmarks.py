@@ -32,7 +32,7 @@ except ImportError:
         def forward(self, x):
             # Mock forward pass for SITS tensor: (batch, sequence, channels, height, width)
             batch_size = x.size(0)
-            
+
             # Handle different input shapes gracefully
             if len(x.shape) == 5:  # (batch, seq, channels, height, width)
                 # Flatten spatial and channel dimensions, keep sequence
@@ -45,18 +45,22 @@ except ImportError:
                 x = x.unsqueeze(1)  # (batch, 1, features)
             else:
                 # Fallback: create appropriate features
-                x = torch.randn(batch_size, 1, self.layers[0].in_features, device=x.device)
+                x = torch.randn(
+                    batch_size, 1, self.layers[0].in_features, device=x.device
+                )
 
             # Ensure we have the right feature dimension
             if x.size(-1) != self.layers[0].in_features:
                 # Project to correct dimension
-                linear = torch.nn.Linear(x.size(-1), self.layers[0].in_features, device=x.device)
+                linear = torch.nn.Linear(
+                    x.size(-1), self.layers[0].in_features, device=x.device
+                )
                 x = linear(x)
 
             # Process through mock transformer layers
             for layer in self.layers:
                 x = torch.relu(layer(x))
-            
+
             # Global average pooling over sequence dimension
             x = x.mean(dim=1)  # (batch, features)
             return self.classifier(x)
