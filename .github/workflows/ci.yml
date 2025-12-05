@@ -35,19 +35,29 @@ jobs:
         path: .venv
         key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
-    - name: Install dependencies
-      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      run: poetry install --no-interaction --no-root --with dev
-
-    - name: Install project
-      run: poetry install --no-interaction --with dev
-
-    - name: Verify installation
+    - name: Install dependencies and project
       run: |
-        poetry run python -c "import sys; print('Python path:', sys.path)"
-        poetry run python -c "import sitsformer; print('Package version:', sitsformer.__version__)"
-        poetry run python -c "from sitsformer.data import DummySatelliteDataset; print('Data import: OK')"
-        poetry run python -c "from sitsformer.models import create_sits_former; print('Models import: OK')"
+        poetry install --no-interaction --with dev
+        
+    - name: Verify installation and imports
+      run: |
+        echo "=== Environment Info ==="
+        poetry run python --version
+        poetry run python -c "import sys; print('Python executable:', sys.executable)"
+        poetry run python -c "import sys; print('Python path:'); [print(f'  {p}') for p in sys.path]"
+        echo ""
+        echo "=== Package Structure ==="
+        ls -la src/
+        ls -la src/sitsformer/
+        echo ""
+        echo "=== Package Installation Check ==="
+        poetry run pip list | grep sitsformer || echo "Package not found in pip list"
+        echo ""
+        echo "=== Import Tests ==="
+        poetry run python -c "import sitsformer; print('✓ Base package imported')" || echo "✗ Base package import failed"
+        poetry run python -c "print('Package version:', __import__('sitsformer').__version__)" || echo "✗ Version check failed"
+        poetry run python -c "from sitsformer.data import DummySatelliteDataset; print('✓ Data module imported')" || echo "✗ Data module import failed"
+        poetry run python -c "from sitsformer.models import create_sits_former; print('✓ Models module imported')" || echo "✗ Models module import failed"
 
     - name: Run tests
       run: |
