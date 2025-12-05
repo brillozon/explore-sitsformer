@@ -37,4 +37,4 @@ Example:
 
 from .sits_former import SITSFormer, create_sits_former
 
-__all__ = ['SITSFormer', 'create_sits_former']
+__all__ = ["SITSFormer", "create_sits_former"]

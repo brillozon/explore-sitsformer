@@ -39,25 +39,32 @@ Example:
 # Use lazy imports to avoid circular import issues
 # Import submodules only when they are accessed
 
+
 def __getattr__(name):
     """Lazy import of submodules."""
     if name == "data":
         from . import data
+
         return data
     elif name == "evaluation":
         from . import evaluation
+
         return evaluation
     elif name == "models":
         from . import models
+
         return models
     elif name == "training":
         from . import training
+
         return training
     elif name == "utils":
         from . import utils
+
         return utils
     else:
         raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
+
 
 __version__ = "0.1.0"
 __author__ = "Mike Martinez"

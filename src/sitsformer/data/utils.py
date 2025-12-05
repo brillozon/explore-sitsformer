@@ -17,8 +17,9 @@ import numpy as np
 import torch
 
 
-def calculate_band_statistics(data_dir: Union[str, Path],
-                             sample_size: int = 1000) -> Dict[str, np.ndarray]:
+def calculate_band_statistics(
+    data_dir: Union[str, Path], sample_size: int = 1000
+) -> Dict[str, np.ndarray]:
     """Calculate mean and standard deviation statistics for each spectral band.
 
     Computes normalization statistics (mean and standard deviation) for each spectral
@@ -59,29 +60,48 @@ def calculate_band_statistics(data_dir: Union[str, Path],
     # In practice, you would load and compute statistics from actual data
 
     # For now, return typical Sentinel-2 statistics
-    sentinel2_means = np.array([
-        1354.40546513, 1118.24399958, 1042.92983953, 947.62620298,
-        1199.47283961, 1999.79090914, 2369.22292565, 2296.82608323,
-        732.08340178, 12.11327804, 1819.12868772, 1118.92391149,
-        2594.14080798
-    ])
+    sentinel2_means = np.array(
+        [
+            1354.40546513,
+            1118.24399958,
+            1042.92983953,
+            947.62620298,
+            1199.47283961,
+            1999.79090914,
+            2369.22292565,
+            2296.82608323,
+            732.08340178,
+            12.11327804,
+            1819.12868772,
+            1118.92391149,
+            2594.14080798,
+        ]
+    )
 
-    sentinel2_stds = np.array([
-        245.71762908, 333.00498827, 395.09249139, 593.75055589,
-        566.4170017, 861.18399006, 1086.63139075, 1117.98170791,
-        404.91978886, 4.77584468, 1002.58768311, 761.30323499,
-        1231.58581042
-    ])
+    sentinel2_stds = np.array(
+        [
+            245.71762908,
+            333.00498827,
+            395.09249139,
+            593.75055589,
+            566.4170017,
+            861.18399006,
+            1086.63139075,
+            1117.98170791,
+            404.91978886,
+            4.77584468,
+            1002.58768311,
+            761.30323499,
+            1231.58581042,
+        ]
+    )
 
-    return {
-        'mean': sentinel2_means,
-        'std': sentinel2_stds
-    }
+    return {"mean": sentinel2_means, "std": sentinel2_stds}
 
 
-def normalize_image(image: np.ndarray,
-                   means: np.ndarray,
-                   stds: np.ndarray) -> np.ndarray:
+def normalize_image(
+    image: np.ndarray, means: np.ndarray, stds: np.ndarray
+) -> np.ndarray:
     """Normalize satellite image using per-band statistics.
 
     Applies z-score normalization to satellite imagery using precomputed mean and
@@ -120,9 +140,9 @@ def normalize_image(image: np.ndarray,
     return (image - means) / stds
 
 
-def denormalize_image(image: np.ndarray,
-                     means: np.ndarray,
-                     stds: np.ndarray) -> np.ndarray:
+def denormalize_image(
+    image: np.ndarray, means: np.ndarray, stds: np.ndarray
+) -> np.ndarray:
     """Denormalize satellite image to original scale.
 
     Reverses z-score normalization by scaling values back to their original range
@@ -163,8 +183,9 @@ def denormalize_image(image: np.ndarray,
     return image * stds + means
 
 
-def create_temporal_mask(sequence_length: int,
-                        mask_ratio: float = 0.15) -> torch.Tensor:
+def create_temporal_mask(
+    sequence_length: int, mask_ratio: float = 0.15
+) -> torch.Tensor:
     """Create temporal mask for self-supervised learning tasks.
 
     Generates a binary mask for temporal masking in self-supervised pre-training,
@@ -209,9 +230,9 @@ def create_temporal_mask(sequence_length: int,
     return mask
 
 
-def pad_sequence(sequence: torch.Tensor,
-                target_length: int,
-                pad_value: float = 0.0) -> Tuple[torch.Tensor, torch.Tensor]:
+def pad_sequence(
+    sequence: torch.Tensor, target_length: int, pad_value: float = 0.0
+) -> Tuple[torch.Tensor, torch.Tensor]:
     """Pad or truncate sequence to target length with attention mask.
 
     Ensures all sequences in a batch have the same length by padding shorter sequences
@@ -281,11 +302,13 @@ def pad_sequence(sequence: torch.Tensor,
         return padded_sequence, mask
 
 
-def split_dataset(dataset_size: int,
-                 train_ratio: float = 0.7,
-                 val_ratio: float = 0.15,
-                 test_ratio: float = 0.15,
-                 random_seed: int = 42) -> Tuple[List[int], List[int], List[int]]:
+def split_dataset(
+    dataset_size: int,
+    train_ratio: float = 0.7,
+    val_ratio: float = 0.15,
+    test_ratio: float = 0.15,
+    random_seed: int = 42,
+) -> Tuple[List[int], List[int], List[int]]:
     """
     Split dataset indices into train/val/test sets.
 
@@ -311,8 +334,8 @@ def split_dataset(dataset_size: int,
     val_size = int(dataset_size * val_ratio)
 
     train_indices = indices[:train_size].tolist()
-    val_indices = indices[train_size:train_size + val_size].tolist()
-    test_indices = indices[train_size + val_size:].tolist()
+    val_indices = indices[train_size : train_size + val_size].tolist()
+    test_indices = indices[train_size + val_size :].tolist()
 
     return train_indices, val_indices, test_indices
 
@@ -357,19 +380,24 @@ class EarlyStopping:
 
 # Example band configurations for different satellites
 SENTINEL2_BANDS = [
-    'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08',
-    'B8A', 'B09', 'B11', 'B12', 'QA60'
+    "B01",
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B8A",
+    "B09",
+    "B11",
+    "B12",
+    "QA60",
 ]
 
-LANDSAT8_BANDS = [
-    'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10', 'B11'
-]
+LANDSAT8_BANDS = ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "B11"]
 
 # Example class labels for different tasks
-CROP_CLASSES = [
-    'Wheat', 'Corn', 'Soybean', 'Cotton', 'Rice', 'Barley', 'Other'
-]
+CROP_CLASSES = ["Wheat", "Corn", "Soybean", "Cotton", "Rice", "Barley", "Other"]
 
-LAND_COVER_CLASSES = [
-    'Urban', 'Agriculture', 'Forest', 'Water', 'Barren', 'Grassland'
-]
+LAND_COVER_CLASSES = ["Urban", "Agriculture", "Forest", "Water", "Barren", "Grassland"]

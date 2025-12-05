@@ -107,7 +107,7 @@ class PositionalEncoding(nn.Module):
         pe[:, 1::2] = torch.cos(position * div_term)
         pe = pe.unsqueeze(0).transpose(0, 1)
 
-        self.register_buffer('pe', pe)
+        self.register_buffer("pe", pe)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -116,7 +116,7 @@ class PositionalEncoding(nn.Module):
         Returns:
             x with positional encoding added
         """
-        return x + self.pe[:x.size(0), :]
+        return x + self.pe[: x.size(0), :]
 
 
 class TemporalAttention(nn.Module):
@@ -154,7 +154,9 @@ class TemporalAttention(nn.Module):
         self.head_dim = embed_dim // num_heads
 
         if self.head_dim * num_heads != embed_dim:
-            raise ValueError(f"embed_dim ({embed_dim}) must be divisible by num_heads ({num_heads})")
+            raise ValueError(
+                f"embed_dim ({embed_dim}) must be divisible by num_heads ({num_heads})"
+            )
 
         self.q_linear = nn.Linear(embed_dim, embed_dim)
         self.k_linear = nn.Linear(embed_dim, embed_dim)
@@ -163,7 +165,9 @@ class TemporalAttention(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
-    def forward(self, x: torch.Tensor, mask: Optional[torch.Tensor] = None) -> torch.Tensor:
+    def forward(
+        self, x: torch.Tensor, mask: Optional[torch.Tensor] = None
+    ) -> torch.Tensor:
         """
         Args:
             x: [B, seq_len, embed_dim] input sequence
@@ -229,8 +233,13 @@ class SITSFormerBlock(nn.Module):
         >>> output = block(x)  # Same shape as input
     """
 
-    def __init__(self, embed_dim: int, num_heads: int = 8,
-                 mlp_ratio: int = 4, dropout: float = 0.1):
+    def __init__(
+        self,
+        embed_dim: int,
+        num_heads: int = 8,
+        mlp_ratio: int = 4,
+        dropout: float = 0.1,
+    ):
         super().__init__()
 
         self.norm1 = nn.LayerNorm(embed_dim)
@@ -246,7 +255,9 @@ class SITSFormerBlock(nn.Module):
             nn.Dropout(dropout),
         )
 
-    def forward(self, x: torch.Tensor, mask: Optional[torch.Tensor] = None) -> torch.Tensor:
+    def forward(
+        self, x: torch.Tensor, mask: Optional[torch.Tensor] = None
+    ) -> torch.Tensor:
         """
         Args:
             x: [B, seq_len, embed_dim] input sequence
@@ -334,17 +345,19 @@ class SITSFormer(nn.Module):
         - For single-image classification, use time_steps=1
     """
 
-    def __init__(self,
-                 img_size: int = 224,
-                 patch_size: int = 16,
-                 in_channels: int = 13,  # Sentinel-2 bands
-                 num_classes: int = 10,
-                 embed_dim: int = 768,
-                 num_layers: int = 12,
-                 num_heads: int = 12,
-                 mlp_ratio: int = 4,
-                 dropout: float = 0.1,
-                 max_seq_len: int = 100):
+    def __init__(
+        self,
+        img_size: int = 224,
+        patch_size: int = 16,
+        in_channels: int = 13,  # Sentinel-2 bands
+        num_classes: int = 10,
+        embed_dim: int = 768,
+        num_layers: int = 12,
+        num_heads: int = 12,
+        mlp_ratio: int = 4,
+        dropout: float = 0.1,
+        max_seq_len: int = 100,
+    ):
         super().__init__()
 
         self.embed_dim = embed_dim
@@ -354,16 +367,20 @@ class SITSFormer(nn.Module):
         self.patch_embed = PatchEmbedding(img_size, patch_size, in_channels, embed_dim)
 
         # Positional encoding
-        self.pos_encoding = PositionalEncoding(embed_dim, max_seq_len * self.num_patches)
+        self.pos_encoding = PositionalEncoding(
+            embed_dim, max_seq_len * self.num_patches
+        )
 
         # Temporal token for aggregating temporal information
         self.temporal_token = nn.Parameter(torch.randn(1, 1, embed_dim))
 
         # Transformer blocks
-        self.blocks = nn.ModuleList([
-            SITSFormerBlock(embed_dim, num_heads, mlp_ratio, dropout)
-            for _ in range(num_layers)
-        ])
+        self.blocks = nn.ModuleList(
+            [
+                SITSFormerBlock(embed_dim, num_heads, mlp_ratio, dropout)
+                for _ in range(num_layers)
+            ]
+        )
 
         # Classification head
         self.norm = nn.LayerNorm(embed_dim)
@@ -385,7 +402,9 @@ class SITSFormer(nn.Module):
                 torch.nn.init.constant_(m.bias, 0)
                 torch.nn.init.constant_(m.weight, 1.0)
 
-    def forward(self, x: torch.Tensor, mask: Optional[torch.Tensor] = None) -> torch.Tensor:
+    def forward(
+        self, x: torch.Tensor, mask: Optional[torch.Tensor] = None
+    ) -> torch.Tensor:
         """Forward pass through the SITS-Former model.
 
         Processes a batch of satellite image time series through the complete model pipeline:
@@ -424,16 +443,16 @@ class SITSFormer(nn.Module):
         B, T, C, H, W = x.shape
 
         # Reshape to process all images together
-        x = rearrange(x, 'b t c h w -> (b t) c h w')
+        x = rearrange(x, "b t c h w -> (b t) c h w")
 
         # Extract patches
         patches = self.patch_embed(x)  # [(B*T), num_patches, embed_dim]
 
         # Reshape back to time series format
-        patches = rearrange(patches, '(b t) n d -> b (t n) d', b=B, t=T)
+        patches = rearrange(patches, "(b t) n d -> b (t n) d", b=B, t=T)
 
         # Add temporal token
-        temporal_tokens = repeat(self.temporal_token, '1 1 d -> b 1 d', b=B)
+        temporal_tokens = repeat(self.temporal_token, "1 1 d -> b 1 d", b=B)
         x = torch.cat([temporal_tokens, patches], dim=1)
 
         # Add positional encoding
@@ -443,7 +462,7 @@ class SITSFormer(nn.Module):
         # Create attention mask including temporal token
         if mask is not None:
             # Repeat mask for each patch
-            patch_mask = repeat(mask, 'b t -> b (t n)', n=self.num_patches)
+            patch_mask = repeat(mask, "b t -> b (t n)", n=self.num_patches)
             # Add mask for temporal token (always attend)
             temporal_mask = torch.ones(B, 1, device=mask.device, dtype=mask.dtype)
             full_mask = torch.cat([temporal_mask, patch_mask], dim=1)
@@ -511,16 +530,16 @@ def create_sits_former(config: dict) -> SITSFormer:
         or when you need to create multiple model variants programmatically.
     """
     return SITSFormer(
-        img_size=config.get('img_size', 224),
-        patch_size=config.get('patch_size', 16),
-        in_channels=config.get('in_channels', 13),
-        num_classes=config.get('num_classes', 10),
-        embed_dim=config.get('embed_dim', 768),
-        num_layers=config.get('num_layers', 12),
-        num_heads=config.get('num_heads', 12),
-        mlp_ratio=config.get('mlp_ratio', 4),
-        dropout=config.get('dropout', 0.1),
-        max_seq_len=config.get('max_seq_len', 100)
+        img_size=config.get("img_size", 224),
+        patch_size=config.get("patch_size", 16),
+        in_channels=config.get("in_channels", 13),
+        num_classes=config.get("num_classes", 10),
+        embed_dim=config.get("embed_dim", 768),
+        num_layers=config.get("num_layers", 12),
+        num_heads=config.get("num_heads", 12),
+        mlp_ratio=config.get("mlp_ratio", 4),
+        dropout=config.get("dropout", 0.1),
+        max_seq_len=config.get("max_seq_len", 100),
     )
 
 
@@ -535,7 +554,7 @@ if __name__ == "__main__":
         embed_dim=256,
         num_layers=4,
         num_heads=8,
-        max_seq_len=10
+        max_seq_len=10,
     )
 
     # Create dummy input: batch_size=2, time_steps=5, channels=13, height=64, width=64
