@@ -17,8 +17,8 @@ Key Features:
 Example:
     Basic usage for land cover classification::
 
-        from sitsformer.models import SITSFormer
-        from sitsformer.data import SatelliteTimeSeriesDataset
+        from .models import SITSFormer
+        from .data import SatelliteTimeSeriesDataset
 
         # Create model
         model = SITSFormer(

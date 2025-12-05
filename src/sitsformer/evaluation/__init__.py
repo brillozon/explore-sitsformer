@@ -30,8 +30,8 @@ Features:
 Example:
     Comprehensive model evaluation::
 
-        from sitsformer.evaluation import ModelEvaluator
-        from sitsformer.models import SITSFormer
+        from ..evaluation import ModelEvaluator
+        from ..models import SITSFormer
 
         # Create evaluator
         evaluator = ModelEvaluator(
