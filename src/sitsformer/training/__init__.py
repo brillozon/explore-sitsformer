@@ -7,7 +7,7 @@ loss functions specifically designed for satellite image time series classificat
 
 Key Components:
     SITSFormerTrainer: Main trainer class with support for distributed training,
-        mixed precision, checkpointing, and experiment tracking
+                      mixed precision, checkpointing, and experiment tracking
     create_optimizer: Factory function for creating optimizers (Adam, AdamW, SGD)
     create_scheduler: Factory function for learning rate scheduling strategies
     create_criterion: Factory function for loss functions and class weighting
