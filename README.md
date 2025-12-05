@@ -6,6 +6,11 @@
 [![Documentation](https://img.shields.io/badge/docs-sphinx-brightgreen.svg)](docs/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+[![CI](https://github.com/brillozon/explore-sitsformer/workflows/CI/badge.svg)](https://github.com/brillozon/explore-sitsformer/actions/workflows/ci.yml)
+[![Documentation](https://github.com/brillozon/explore-sitsformer/workflows/Documentation/badge.svg)](https://github.com/brillozon/explore-sitsformer/actions/workflows/docs.yml)
+[![Security](https://github.com/brillozon/explore-sitsformer/workflows/Security/badge.svg)](https://github.com/brillozon/explore-sitsformer/actions/workflows/security.yml)
+[![Quality](https://github.com/brillozon/explore-sitsformer/workflows/Quality/badge.svg)](https://github.com/brillozon/explore-sitsformer/actions/workflows/quality.yml)
+
 A state-of-the-art transformer-based model for analyzing satellite image time series data. SITSFormer leverages the power of attention mechanisms to capture temporal dependencies in Earth observation data for various remote sensing applications including land cover classification, change detection, and crop monitoring.
 
 ## 🚀 Features
