@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Memory profiling script for SITS-Former."""
 
+import gc
+import os
+import sys
+from pathlib import Path
+
+import numpy as np
+import psutil
 import torch
 import torch.nn as nn
-import numpy as np
-from pathlib import Path
-import sys
-import gc
-import psutil
-import os
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))

@@ -1,13 +1,14 @@
 """Training performance benchmarks."""
 
+import sys
+import time
+from pathlib import Path
+
 import pytest
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
-from pathlib import Path
-import sys
-import time
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
@@ -179,8 +180,9 @@ class TestTrainingBenchmarks:
     @pytest.mark.memory
     def test_training_memory_usage(self, model_small, train_data_small):
         """Test memory usage during training."""
-        import psutil
         import os
+
+        import psutil
 
         process = psutil.Process(os.getpid())
         memory_before = process.memory_info().rss / 1024 / 1024  # MB

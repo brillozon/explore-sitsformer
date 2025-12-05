@@ -275,8 +275,8 @@ def get_git_info() -> Dict[str, str]:
     Returns:
         Dictionary with git information
     """
-    import subprocess  # nosec B404 - subprocess needed for git operations
     import shutil
+    import subprocess  # nosec B404 - subprocess needed for git operations
 
     git_info = {}
 

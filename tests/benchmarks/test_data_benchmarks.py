@@ -1,13 +1,14 @@
 """Data loading performance benchmarks."""
 
-import pytest
-import torch
-import numpy as np
-from torch.utils.data import DataLoader, TensorDataset
-from pathlib import Path
+import os
 import sys
 import tempfile
-import os
+from pathlib import Path
+
+import numpy as np
+import pytest
+import torch
+from torch.utils.data import DataLoader, TensorDataset
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
@@ -140,8 +141,9 @@ class TestDataLoadingBenchmarks:
     @pytest.mark.memory
     def test_memory_efficient_loading(self, sample_dataset_large):
         """Test memory usage during data loading."""
-        import psutil
         import os
+
+        import psutil
 
         process = psutil.Process(os.getpid())
         memory_before = process.memory_info().rss / 1024 / 1024  # MB

@@ -1,13 +1,14 @@
 """Model performance benchmarks."""
 
+import sys
+import time
+from pathlib import Path
+from unittest.mock import Mock
+
+import numpy as np
 import pytest
 import torch
 import torch.nn as nn
-import numpy as np
-from unittest.mock import Mock
-import time
-from pathlib import Path
-import sys
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
@@ -154,8 +155,9 @@ class TestModelInferenceBenchmarks:
     @pytest.mark.memory
     def test_memory_usage_small(self, small_model, sample_data_small):
         """Test memory usage for small model."""
-        import psutil
         import os
+
+        import psutil
 
         process = psutil.Process(os.getpid())
         memory_before = process.memory_info().rss / 1024 / 1024  # MB
@@ -174,8 +176,9 @@ class TestModelInferenceBenchmarks:
     @pytest.mark.slow
     def test_memory_usage_large(self, large_model, sample_data_large):
         """Test memory usage for large model."""
-        import psutil
         import os
+
+        import psutil
 
         process = psutil.Process(os.getpid())
         memory_before = process.memory_info().rss / 1024 / 1024  # MB
