@@ -744,9 +744,9 @@ Next Steps
 
 After training your model:
 
-1. Proceed to model evaluation: :doc:`../examples/land_cover_classification`
+1. Proceed to model evaluation: :doc:`model_evaluation`
 2. Learn about fine-tuning: :doc:`fine_tuning`
-3. Explore custom model architectures: :doc:`custom_models`
+3. Explore example applications: :doc:`../examples/land_cover_classification`
 
 Training Tips
 -------------

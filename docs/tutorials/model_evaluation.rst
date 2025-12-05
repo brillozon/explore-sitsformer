@@ -982,6 +982,6 @@ After comprehensive evaluation:
 
 1. Identify areas for improvement: :doc:`fine_tuning`
 2. Deploy your model: :doc:`deployment`
-3. Monitor production performance: :doc:`monitoring`
+3. Monitor production performance: See deployment guide for monitoring strategies
 
 Remember that evaluation is an iterative process - use insights from analysis to guide model improvements and retraining strategies.

@@ -864,7 +864,7 @@ Next Steps
 
 After fine-tuning your model:
 
-1. Evaluate thoroughly: :doc:`../examples/model_evaluation`
+1. Evaluate thoroughly: :doc:`model_evaluation`
 2. Deploy your model: :doc:`deployment`
 3. Monitor performance in production
 
