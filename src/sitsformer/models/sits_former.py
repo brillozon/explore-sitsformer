@@ -155,7 +155,8 @@ class TemporalAttention(nn.Module):
 
         if self.head_dim * num_heads != embed_dim:
             raise ValueError(
-                f"embed_dim ({embed_dim}) must be divisible by num_heads ({num_heads})"
+                f"embed_dim ({embed_dim}) must be divisible by "
+                f"num_heads ({num_heads})"
             )
 
         self.q_linear = nn.Linear(embed_dim, embed_dim)
