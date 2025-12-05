@@ -76,11 +76,12 @@ jobs:
       run: mkdir -p benchmark_results
 
     - name: Run performance benchmarks
+      env:
+        BENCHMARK_TYPE: ${{ github.event.inputs.benchmark_type || 'quick' }}
       run: |
-        BENCHMARK_TYPE="${{ github.event.inputs.benchmark_type || 'quick' }}"
         echo "Running $BENCHMARK_TYPE benchmarks..."
         
-        case $BENCHMARK_TYPE in
+        case "$BENCHMARK_TYPE" in
           "quick")
             poetry run pytest tests/benchmarks/ -k "not slow" --benchmark-json=benchmark_results/quick_benchmarks.json
             ;;

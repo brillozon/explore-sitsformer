@@ -214,14 +214,20 @@ class SITSFormerTrainer:
         if self.scaler is not None:
             checkpoint["scaler_state_dict"] = self.scaler.state_dict()
 
+        # Save checkpoint - torch.save is required for model persistence
+        # The security risk is mitigated by using weights_only=True when loading
+        # nosemgrep: trailofbits.python.pickles-in-pytorch.pickles-in-pytorch
         torch.save(checkpoint, filepath)
 
         if is_best:
             best_path = filepath.parent / "best_model.pt"
+            # nosemgrep: trailofbits.python.pickles-in-pytorch.pickles-in-pytorch
             torch.save(checkpoint, best_path)
 
     def load_checkpoint(self, filepath: Path) -> Dict:
         """Load model checkpoint."""
+        # Use weights_only=True to prevent arbitrary code execution via pickle
+        # nosemgrep: trailofbits.python.pickles-in-pytorch.pickles-in-pytorch
         checkpoint = torch.load(filepath, map_location=self.device, weights_only=True)
 
         self.model.load_state_dict(checkpoint["model_state_dict"])
