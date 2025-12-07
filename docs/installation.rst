@@ -18,8 +18,8 @@ If you have Poetry installed:
 
 .. code-block:: bash
 
-    git clone https://github.com/yourusername/sitsformer.git
-    cd sitsformer
+    git clone https://github.com/brillozon/explore-sitsformer.git
+    cd explore-sitsformer
     poetry install
 
     # For development
@@ -33,8 +33,8 @@ Using pip
 
 .. code-block:: bash
 
-    git clone https://github.com/yourusername/sitsformer.git
-    cd sitsformer
+    git clone https://github.com/brillozon/explore-sitsformer.git
+    cd explore-sitsformer
     pip install -e .
 
     # For development

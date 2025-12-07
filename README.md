@@ -47,8 +47,8 @@ A state-of-the-art transformer-based model for analyzing satellite image time se
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/sitsformer.git
-cd sitsformer
+git clone https://github.com/brillozon/explore-sitsformer.git
+cd explore-sitsformertsformer
 
 # Install Poetry (if not already installed)
 curl -sSL https://install.python-poetry.org | python3 -
@@ -248,8 +248,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ```bash
 # Clone and install in development mode
-git clone https://github.com/yourusername/sitsformer.git
-cd sitsformer
+git clone https://github.com/brillozon/explore-sitsformer.git
+cd explore-sitsformer
 
 # Install Poetry if not already installed
 curl -sSL https://install.python-poetry.org | python3 -
@@ -323,8 +323,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Documentation**: Available in the [docs/](docs/) directory
 - **Paper**: [arXiv:xxxx.xxxxx](https://arxiv.org)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/sitsformer/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/sitsformer/discussions)
+- **Issues**: [GitHub Issues](https://github.com/brillozon/explore-sitsformer/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/brillozon/explore-sitsformer/discussions)
 
 ---
 

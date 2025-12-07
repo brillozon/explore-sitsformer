@@ -11,8 +11,8 @@ Development Environment
 
 .. code-block:: bash
 
-    git clone https://github.com/yourusername/sitsformer.git
-    cd sitsformer
+    git clone https://github.com/brillozon/explore-sitsformer.git
+    cd explore-sitsformer
 
 3. Install development dependencies:
 
